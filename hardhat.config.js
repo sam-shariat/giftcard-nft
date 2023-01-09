@@ -92,13 +92,7 @@ module.exports = {
     },
     contractSizer: {
         runOnCompile: false,
-        only: [
-            "APIConsumer",
-            "AutomationCounter",
-            "NFTFloorPriceConsumerV3",
-            "PriceConsumerV3",
-            "RandomNumberConsumerV2",
-        ],
+        only: ["PriceConsumerV3"],
     },
     paths: {
         sources: "./contracts",
