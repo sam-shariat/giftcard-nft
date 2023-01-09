@@ -14,7 +14,6 @@ const networkConfig = {
         jobId: "29fa9aa13bf1468788b7cc4a500a45b8",
         fundAmount: "1000000000000000000",
         automationUpdateInterval: "30",
-        ethUsdPriceFeed: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
     },
     1: {
         name: "mainnet",
@@ -46,7 +45,7 @@ const networkConfig = {
 }
 
 const developmentChains = ["hardhat", "localhost"]
-const VERIFICATION_BLOCK_CONFIRMATIONS = 6
+const VERIFICATION_BLOCK_CONFIRMATIONS = 3
 
 module.exports = {
     networkConfig,

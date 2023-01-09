@@ -1,6 +1,7 @@
 require("@nomicfoundation/hardhat-toolbox")
-require("./tasks")
+//require("./tasks")
 require("dotenv").config()
+require("hardhat-deploy")
 
 const MAINNET_RPC_URL =
     process.env.MAINNET_RPC_URL ||
@@ -24,6 +25,9 @@ const REPORT_GAS = process.env.REPORT_GAS || false
 module.exports = {
     solidity: {
         compilers: [
+            {
+                version: "0.8.9",
+            },
             {
                 version: "0.8.7",
             },
@@ -84,7 +88,7 @@ module.exports = {
         currency: "USD",
         outputFile: "gas-report.txt",
         noColors: true,
-        // coinmarketcap: process.env.COINMARKETCAP_API_KEY,
+        coinmarketcap: process.env.COINMARKETCAP_API_KEY,
     },
     contractSizer: {
         runOnCompile: false,

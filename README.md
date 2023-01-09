@@ -6,11 +6,7 @@
 </p>
 <br/>
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/smartcontractkit/hardhat-starter-kit)
-
-[![GitPOAP Badge](https://public-api.gitpoap.io/v1/repo/smartcontractkit/hardhat-starter-kit/badge)](https://www.gitpoap.io/gp/649)
-
-- [Chainlink Hardhat Starter Kit](#chainlink-hardhat-starter-kit)
+- [GiftCards NFT - onChain SVG GiftCards](#giftcard-nft)
 - [Getting Started](#getting-started)
   - [Requirements](#requirements)
   - [Quickstart](#quickstart)
@@ -25,26 +21,26 @@
 - [Test](#test)
 - [Interacting with Deployed Contracts](#interacting-with-deployed-contracts)
   - [Chainlink Price Feeds](#chainlink-price-feeds)
-  - [Request & Receive Data](#request--receive-data)
-  - [VRF Get a random number](#vrf-get-a-random-number)
-  - [Keepers](#keepers)
   - [Verify on Etherscan](#verify-on-etherscan)
 - [View Contracts Size](#view-contracts-size)
 - [Linting](#linting)
 - [Code Formatting](#code-formatting)
 - [Estimating Gas](#estimating-gas)
 - [Code Coverage](#code-coverage)
-- [Fuzzing](#fuzzing)
 - [Contributing](#contributing)
 - [Thank You!](#thank-you)
   - [Resources](#resources)
 
-# Chainlink Hardhat Starter Kit
- Implementation of the following 4 Chainlink features using the [Hardhat](https://hardhat.org/) development environment:
+# Giftcard NFT
+
+GiftCardNFT is an EVM based Smart Contract that will mint a fancy on-chain GiftCard NFT with a custom text and value. The NFT can be reedemed anytime by the owner and the value will be withdrawn to the owner's address and then burn.
+
+The price that will be showed on the NFT will be as USD but the value of the giftcard will be in ETH.
+
+I used the following repos and docs : 
+ - [Chainlink Hardhat Starter Kit](https://github.com/smartcontractkit/hardhat-starter-kit)
+ - [Web3, Full Stack Solidity, Smart Contract & Blockchain - Beginner to Expert ULTIMATE Course | Javascript Edition by Patrick](https://github.com/smartcontractkit/full-blockchain-solidity-course-js#lesson-14-hardhat-nfts-everything-you-need-to-know-about-nfts)
  - [Chainlink Price Feeds](https://docs.chain.link/docs/using-chainlink-reference-contracts)
- - [Chainlink VRF](https://docs.chain.link/docs/chainlink-vrf)
- - [Chainlink Keepers](https://docs.chain.link/docs/chainlink-keepers/introduction/)
- - [Request & Receive data](https://docs.chain.link/docs/request-and-receive-data)
 
 # Getting Started 
 
@@ -71,8 +67,8 @@ It's recommended that you've gone through the [hardhat getting started documenta
 After installing all the requirements, run the following:
 
 ```bash
-git clone https://github.com/smartcontractkit/hardhat-starter-kit/
-cd hardhat-starter-kit
+git clone https://github.com/sam-shariat/giftcard-nft/
+cd giftcard-nft
 ```
 Then:
 ```
@@ -81,12 +77,12 @@ npm install
 
 The recommendation is to use npm 7 or later. If you are using an older version of npm, you'll also need to install all the packages used by the toolbox.
 ```
-npm install --save-dev @nomicfoundation/hardhat-toolbox @nomicfoundation/hardhat-network-helpers @nomicfoundation/hardhat-chai-matchers @nomiclabs/hardhat-ethers @nomiclabs/hardhat-etherscan chai ethers hardhat-gas-reporter solidity-coverage @typechain/hardhat typechain @typechain/ethers-v5 @ethersproject/abi @ethersproject/providers
+npm install --save-dev @nomicfoundation/hardhat-toolbox @nomicfoundation/hardhat-network-helpers @nomicfoundation/hardhat-chai-matchers @nomiclabs/hardhat-ethers @nomiclabs/hardhat-etherscan chai ethers hardhat-gas-reporter solidity-coverage @typechain/hardhat typechain @typechain/ethers-v5 @ethersproject/abi @ethersproject/providers hardhat-deploy
 ```
 
 That's also the case if you are using yarn.
 ```
-yarn add --dev @nomicfoundation/hardhat-toolbox @nomicfoundation/hardhat-network-helpers @nomicfoundation/hardhat-chai-matchers @nomiclabs/hardhat-ethers @nomiclabs/hardhat-etherscan chai ethers hardhat-gas-reporter solidity-coverage @typechain/hardhat typechain @typechain/ethers-v5 @ethersproject/abi @ethersproject/providers
+yarn add --dev @nomicfoundation/hardhat-toolbox @nomicfoundation/hardhat-network-helpers @nomicfoundation/hardhat-chai-matchers @nomiclabs/hardhat-ethers @nomiclabs/hardhat-etherscan chai ethers hardhat-gas-reporter solidity-coverage @typechain/hardhat typechain @typechain/ethers-v5 @ethersproject/abi @ethersproject/providers hardhat-deploy
 ```
 
 2. You can now do stuff!
@@ -136,7 +132,7 @@ One of the best ways to test and interact with smart contracts is with a local n
 npx hardhat node
 ```
 
-You'll get a local blockchain, private keys, contracts deployed (from the `deployment` folder scripts), and an endpoint to potentially add to an EVM wallet. 
+You'll get a local blockchain, private keys, contracts deployed (from the `deploy` folder scripts), and an endpoint to potentially add to an EVM wallet. 
 
 ## Using a Testnet or Live Network (like Mainnet or Polygon)
 
@@ -154,7 +150,7 @@ To interact with a live or test network, you'll need:
 
 1. An rpc URL 
 2. A Private Key
-3. ETH & LINK token (either testnet or real)
+3. ETH token (testnet or real)
 
 Let's look at an example of setting these up using the Goerli testnet. 
 
@@ -298,61 +294,6 @@ The Price Feeds consumer contract has one task, to read the latest price of a sp
 npx hardhat read-price-feed --contract insert-contract-address-here --network network
 ```
 
-## Request & Receive Data
-The APIConsumer contract has two tasks, one to request external data based on a set of parameters, and one to check to see what the result of the data request is. This contract needs to be funded with link first:
-
-```bash
-npx hardhat fund-link --contract insert-contract-address-here --network network
-```
-
-Once it's funded, you can request external data by passing in a number of parameters to the request-data task. The contract parameter is mandatory, the rest are optional
-
-```bash
-npx hardhat request-data --contract insert-contract-address-here --network network
-```
-
-Once you have successfully made a request for external data, you can see the result via the read-data task
-```bash
-npx hardhat read-data --contract insert-contract-address-here --network network
-```
-
-
-## VRF Get a random number
-The VRFConsumer contract has two tasks, one to request a random number, and one to read the result of the random number request. To start, go to [VRF Subscription Page](https://vrf.chain.link/goerli) and create the new subscription. Save your subscription ID and put it in `helper-hardhat-config.js` file as `subscriptionId`:
-
-```javascript
-5: {
-    // rest of the config
-    subscriptionId = "777"
-}
-```
-
-Then, deploy your VRF V2 contract consumer to the network of your recent subscription using subscription id as constructor argument.
-
-```bash
-npm run deploy --network network   
-```
-
-Finally, you need to go to your subscription page one more time and add the address of deployed contract as a new consumer. Once that's done, you can perform a VRF request with the request-random-number task:
-
-```bash
-npx hardhat request-random-number --contract insert-contract-address-here --network network
-```
-
-Once you have successfully made a request for a random number, you can see the result via the read-random-number task:
-
-```bash
-npx hardhat read-random-number --contract insert-contract-address-here --network network
-```
-
-## Automation
-The AutomationCounter contract is a simple Chainlink Automation enabled contract that simply maintains a counter variable that gets incremented each time the performUpkeep task is performed by a Chainlink Automation. Once the contract is deployed, you should head to [https://automation.chain.link/](https://automation.chain.link/) to register it for upkeeps, then you can use the task below to view the counter variable that gets incremented by Chainlink Automation
-
-
-```bash
-npx hardhat read-automation-counter --contract insert-contract-address-here --network network
-```
-
 ## Verify on Etherscan
 
 You'll need an `ETHERSCAN_API_KEY` environment variable. You can get one from the [Etherscan API site.](https://etherscan.io/apis). If you have it set, your deploy script will try to verify them by default, but if you want to verify any manually, you can run: 
@@ -397,28 +338,6 @@ If you'd like to see the gas prices in USD or other currency, add a `COINMARKETC
 To see a measure in percent of the degree to which the smart contract source code is executed when a particular test suite is run, type
 ```
 npm run coverage
-```
-
-# Fuzzing
-
-We are going to use Echidna as a Fuzz testing tool. You need to have [Docker](https://www.docker.com/) installed with at least 8GB virtual memory allocated (To update this parameter go to _Settings->Resources->Advanced->Memory_). 
-
-To start Echidna instance run
-
-```
-npm run fuzzing
-```
-
-If you are using it for the first time, you will need to wait for Docker to download [eth-security-toolbox](https://hub.docker.com/r/trailofbits/eth-security-toolbox) image for us.
-
-To start Fuzzing run
-```
-echidna-test /src/contracts/test/fuzzing/AutomationCounterEchidnaTest.sol --contract AutomationCounterEchidnaTest --config /src/contracts/test/fuzzing/config.yaml
-```
-
-To exit Echidna type
-```bash
-exit
 ```
 
 # Contributing
